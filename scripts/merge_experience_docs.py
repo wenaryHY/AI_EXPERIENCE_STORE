@@ -2,8 +2,10 @@
 """
 Experience Documents Merger
 
-This script merges all experience documents from the experience-docs/ directory
-into a single master JSON file (experience_master.json).
+Cross-platform script to merge all experience documents from the experience-docs/
+directory into a single master JSON file (experience_master.json).
+
+Works on macOS, Windows, and Linux.
 
 Features:
 - Parses JSON-formatted .txt files from experience-docs/
@@ -15,7 +17,6 @@ Features:
 from __future__ import annotations
 
 import json
-import os
 import hashlib
 from datetime import datetime, timezone
 from pathlib import Path
@@ -27,6 +28,11 @@ EXPERIENCE_DOCS_DIR = "experience-docs"
 OUTPUT_DIR = "generated"
 OUTPUT_FILE = "experience_master.json"
 SUPPORTED_EXTENSIONS = [".txt", ".json"]
+
+
+def get_repo_root() -> Path:
+    """Get the repository root directory."""
+    return Path(__file__).parent.parent.resolve()
 
 
 def calculate_content_hash(content: str) -> str:
@@ -45,6 +51,7 @@ def parse_experience_file(file_path: Path) -> Optional[Dict[str, Any]]:
         Parsed document with metadata, or None if parsing fails
     """
     try:
+        # Read with UTF-8 encoding (cross-platform)
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
         
@@ -89,15 +96,14 @@ def load_existing_master(output_path: Path) -> Dict[str, Any]:
     return {}
 
 
-def merge_experience_docs() -> Dict[str, Any]:
+def merge_experience_docs(repo_root: Path) -> Dict[str, Any]:
     """
     Merge all experience documents into a master dictionary.
     
     Returns:
         Master dictionary containing all merged experiences
     """
-    docs_dir = Path(EXPERIENCE_DOCS_DIR)
-    output_path = Path(OUTPUT_FILE)
+    docs_dir = repo_root / EXPERIENCE_DOCS_DIR
     
     if not docs_dir.exists():
         print(f"❌ Directory not found: {docs_dir}")
@@ -140,7 +146,8 @@ def merge_experience_docs() -> Dict[str, Any]:
 def save_master(master: Dict[str, Any], output_path: Path) -> bool:
     """Save master document to file."""
     try:
-        with open(output_path, 'w', encoding='utf-8') as f:
+        # Use UTF-8 encoding and Unix line endings (cross-platform)
+        with open(output_path, 'w', encoding='utf-8', newline='\n') as f:
             json.dump(master, f, ensure_ascii=False, indent=2)
         return True
     except IOError as e:
@@ -155,15 +162,17 @@ def main() -> int:
     print("=" * 50)
     print()
     
+    repo_root = get_repo_root()
+    
     # Merge documents
-    master = merge_experience_docs()
+    master = merge_experience_docs(repo_root)
     
     if not master or not master.get("documents"):
         print("⚠️  No documents to merge")
         return 1
     
     # Ensure output directory exists
-    output_dir = Path(OUTPUT_DIR)
+    output_dir = repo_root / OUTPUT_DIR
     output_dir.mkdir(parents=True, exist_ok=True)
     
     # Save to output file

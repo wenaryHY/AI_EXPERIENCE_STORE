@@ -1,3 +1,11 @@
-# JSON merge & workflow scripts dependencies
-pyyaml==7.0
-requests==2.32.0
+# AI Experience Store - Python Dependencies
+# 
+# All scripts use Python standard library only.
+# No external dependencies required.
+#
+# Standard library modules used:
+# - json, hashlib, datetime, pathlib, typing
+# - argparse, subprocess, sys, platform
+#
+# This file is kept for GitHub Actions compatibility.
+# You can safely run all scripts without pip install.
