@@ -46,7 +46,7 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          if git diff --quiet experience_master.json 2>/dev/null; then
+          if git diff --quiet generated/ 2>/dev/null && [ -z "$(git ls-files --others --exclude-standard generated/)" ]; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
@@ -63,7 +63,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
           git checkout -b "$BRANCH_NAME"
-          git add experience_master.json
+          git add generated/
           git commit -m "🔄 Auto-merge experience docs [$(date +%Y-%m-%d)]"
           git push --set-upstream origin "$BRANCH_NAME"
 

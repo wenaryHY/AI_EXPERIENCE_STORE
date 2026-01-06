@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-01-06T08:58:19.640252+00:00",
+  "generated_at_utc": "2026-01-06T09:04:09.875935+00:00",
   "total_documents": 8,
   "source_directory": "experience-docs",
   "documents": [
@@ -9,7 +9,7 @@
       "file_path": "experience-docs/00_system_identity_and_principles.txt",
       "content_hash": "82c5ac136839e855de2169cc464abe7f",
       "file_modified_utc": "2026-01-06T06:34:43.517490+00:00",
-      "parsed_at_utc": "2026-01-06T08:58:19.639040+00:00",
+      "parsed_at_utc": "2026-01-06T09:04:09.875145+00:00",
       "content": {
         "role": "system",
         "agent_identity": {
@@ -57,7 +57,7 @@
       "file_path": "experience-docs/01_pre_action_system_state_rules.txt",
       "content_hash": "cb9abe4a7e6e831d0f47da8faf27a709",
       "file_modified_utc": "2026-01-06T06:35:33.659918+00:00",
-      "parsed_at_utc": "2026-01-06T08:58:19.639230+00:00",
+      "parsed_at_utc": "2026-01-06T09:04:09.875272+00:00",
       "content": {
         "role": "system",
         "pre_action_system_state_rules": {
@@ -93,7 +93,7 @@
       "file_path": "experience-docs/02_engineering_invariants_code_quality.txt",
       "content_hash": "bdd226fd366a66cd13b7f68503312ee2",
       "file_modified_utc": "2026-01-06T06:36:13.586731+00:00",
-      "parsed_at_utc": "2026-01-06T08:58:19.639767+00:00",
+      "parsed_at_utc": "2026-01-06T09:04:09.875374+00:00",
       "content": {
         "role": "system",
         "engineering_invariants": {
@@ -140,7 +140,7 @@
       "file_path": "experience-docs/03_self_audit_and_rollback_rules.txt",
       "content_hash": "a008b9ea2e6e5be5e1907d8379a22e78",
       "file_modified_utc": "2026-01-06T06:36:50.011916+00:00",
-      "parsed_at_utc": "2026-01-06T08:58:19.639896+00:00",
+      "parsed_at_utc": "2026-01-06T09:04:09.875463+00:00",
       "content": {
         "role": "system",
         "self_audit_and_rollback": {
@@ -184,7 +184,7 @@
       "file_path": "experience-docs/04_experience_document_template.txt",
       "content_hash": "0122367d82b66d6da2618b28edb1b2a0",
       "file_modified_utc": "2026-01-06T06:37:23.633132+00:00",
-      "parsed_at_utc": "2026-01-06T08:58:19.639988+00:00",
+      "parsed_at_utc": "2026-01-06T09:04:09.875606+00:00",
       "content": {
         "role": "system",
         "experience_document_template": {
@@ -229,7 +229,7 @@
       "file_path": "experience-docs/05_experience_enforcement_rule.txt",
       "content_hash": "1c01902dcd817b8b0468721aaa208117",
       "file_modified_utc": "2026-01-06T06:38:14.082257+00:00",
-      "parsed_at_utc": "2026-01-06T08:58:19.640073+00:00",
+      "parsed_at_utc": "2026-01-06T09:04:09.875756+00:00",
       "content": {
         "role": "system",
         "experience_enforcement": {
@@ -258,7 +258,7 @@
       "file_path": "experience-docs/06_experience_management.txt",
       "content_hash": "f464e03eaa8b3a9469248afb3c585afa",
       "file_modified_utc": "2026-01-06T06:41:52.567318+00:00",
-      "parsed_at_utc": "2026-01-06T08:58:19.640155+00:00",
+      "parsed_at_utc": "2026-01-06T09:04:09.875845+00:00",
       "content": {
         "role": "system",
         "agent_identity": {
@@ -286,7 +286,7 @@
       "file_path": "experience-docs/07_experience_doc_management.txt",
       "content_hash": "0d6ce998baaec664886c73d82bae0718",
       "file_modified_utc": "2026-01-06T07:05:32.079104+00:00",
-      "parsed_at_utc": "2026-01-06T08:58:19.640247+00:00",
+      "parsed_at_utc": "2026-01-06T09:04:09.875931+00:00",
       "content": {
         "role": "system",
         "agent_identity": {

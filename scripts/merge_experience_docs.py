@@ -24,6 +24,7 @@ from typing import Any, Dict, List, Optional
 
 # Configuration
 EXPERIENCE_DOCS_DIR = "experience-docs"
+OUTPUT_DIR = "generated"
 OUTPUT_FILE = "experience_master.json"
 SUPPORTED_EXTENSIONS = [".txt", ".json"]
 
@@ -161,8 +162,12 @@ def main() -> int:
         print("⚠️  No documents to merge")
         return 1
     
+    # Ensure output directory exists
+    output_dir = Path(OUTPUT_DIR)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
     # Save to output file
-    output_path = Path(OUTPUT_FILE)
+    output_path = output_dir / OUTPUT_FILE
     print()
     print(f"💾 Saving to: {output_path}")
     
@@ -170,7 +175,7 @@ def main() -> int:
         print()
         print("=" * 50)
         print(f"✅ Successfully merged {master['total_documents']} document(s)")
-        print(f"📄 Output: {OUTPUT_FILE}")
+        print(f"📄 Output: {output_path}")
         print("=" * 50)
         return 0
     else:
