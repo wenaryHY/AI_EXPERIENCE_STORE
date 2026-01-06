@@ -1,9 +1,14 @@
 name: Auto Update Experience Docs
 
 on:
+  workflow_dispatch:
+    inputs:
+      test_param:
+        description: 'Optional test parameter'
+        required: false
   push:
     branches:
-      - main  # 每次 push 到 main 分支都会触发
+      - master # 每次 push 到 main 分支都会触发
   schedule:
     - cron: '0 2 * * *'  # 每天 UTC 2 点自动运行
 
