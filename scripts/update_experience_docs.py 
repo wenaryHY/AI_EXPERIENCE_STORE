@@ -1,102 +1,69 @@
 import os
-from github import Github
+import json
 from datetime import datetime
-from pathlib import Path
 
-# =============================
-# 配置区
-# =============================
-# 仓库名称，例如 "username/repo"
-REPO_NAME = "username/repo"
+EXPERIENCE_FOLDER = "experience_jsons"
+OUTPUT_FILE = "experience_master.json"
 
-# 本地经验文档路径（相对于仓库根目录）
-EXPERIENCE_DIR = "experience-docs"
-
-# GitHub Token (在 GitHub Actions 中可以使用 GITHUB_TOKEN)
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("EXPERIENCE_GH_TOKEN")
-
-if not GITHUB_TOKEN:
-    raise ValueError("GitHub token not found. Set GITHUB_TOKEN or EXPERIENCE_GH_TOKEN in environment variables.")
-
-# =============================
-# 初始化 GitHub API
-# =============================
-g = Github(GITHUB_TOKEN)
-repo = g.get_repo(REPO_NAME)
-main_branch = repo.get_branch("main")
-
-# =============================
-# 创建带时间戳的分支
-# =============================
-timestamp = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
-branch_name = f"experience-update-{timestamp}"
-
-# 检查分支是否已存在
-if branch_name not in [b.name for b in repo.get_branches()]:
-    repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=main_branch.commit.sha)
-    print(f"Created branch: {branch_name}")
+# 读取已有 master 文件（如果存在）
+if os.path.exists(OUTPUT_FILE):
+    with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+        master_data = json.load(f)
 else:
-    print(f"Branch {branch_name} already exists, using existing.")
+    master_data = []
 
-# =============================
-# 扫描本地经验文档
-# =============================
-experience_path = Path(EXPERIENCE_DIR)
-if not experience_path.exists():
-    raise FileNotFoundError(f"{EXPERIENCE_DIR} does not exist.")
+# 用一个 dict 根据 key 来判断是否重复/需要替换
+# 这里假设每条经验 JSON 都有 'id' 或 'title' 字段可以唯一标识经验
+existing_index = {}
+for entry in master_data:
+    key = entry.get("id") or entry.get("title") or json.dumps(entry, sort_keys=True)
+    existing_index[key] = entry
 
-experience_files = list(experience_path.glob("*.json"))
-if not experience_files:
-    print("No experience JSON files found. Nothing to update.")
-    exit(0)
+# 遍历 experience_jsons 文件夹
+json_files = sorted(f for f in os.listdir(EXPERIENCE_FOLDER) if f.endswith(".json"))
 
-# =============================
-# 上传或更新文件到分支
-# =============================
-for file_path in experience_files:
-    file_name = file_path.name
-    repo_path = f"{EXPERIENCE_DIR}/{file_name}"
-
-    with open(file_path, "r", encoding="utf-8") as f:
-        content = f.read()
-
+for fname in json_files:
+    path = os.path.join(EXPERIENCE_FOLDER, fname)
     try:
-        # 检查文件是否已存在
-        contents = repo.get_contents(repo_path, ref=branch_name)
-        repo.update_file(
-            path=repo_path,
-            message=f"[AI] Update experience doc {file_name}",
-            content=content,
-            sha=contents.sha,
-            branch=branch_name
-        )
-        print(f"Updated {file_name} in branch {branch_name}")
-    except:
-        # 文件不存在则创建
-        repo.create_file(
-            path=repo_path,
-            message=f"[AI] Add experience doc {file_name}",
-            content=content,
-            branch=branch_name
-        )
-        print(f"Created {file_name} in branch {branch_name}")
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
 
-# =============================
-# 自动生成 Pull Request
-# =============================
-pr_title = f"[AI] Update experience docs {timestamp}"
-pr_body = "Auto-generated PR for experience document updates by AI."
+        if isinstance(data, list):
+            items = data
+        else:
+            items = [data]
 
-existing_prs = list(repo.get_pulls(state="open", head=branch_name))
-if existing_prs:
-    print(f"PR already exists: {existing_prs[0].html_url}")
-else:
-    pr = repo.create_pull(
-        title=pr_title,
-        body=pr_body,
-        head=branch_name,
-        base="main"
-    )
-    print(f"Created PR: {pr.html_url}")
+        for item in items:
+            # 每条经验元信息
+            key = item.get("id") or item.get("title") or json.dumps(item, sort_keys=True)
+            meta = {
+                "source_file": fname,
+                "merged_at": datetime.utcnow().isoformat() + "Z",
+                "superseded": False,
+                "branch_name": f"exp-{datetime.utcnow().strftime('%Y%m%d%H%M%S')}-{fname.replace('.json','')}"
+            }
 
-print("✅ Experience document update process completed.")
+            # 如果 master 已有该经验，则标记旧经验为 superseded
+            if key in existing_index:
+                old_entry = existing_index[key]
+                old_entry["superseded"] = True
+                print(f"Superseding old entry from {old_entry['source_file']}")
+
+            # 添加新经验
+            if isinstance(item, dict):
+                item.update(meta)
+            else:
+                item = {"content": item, **meta}
+
+            existing_index[key] = item
+
+    except Exception as e:
+        print(f"Failed to process {fname}: {e}")
+
+# 输出合并结果
+merged_experiences = list(existing_index.values())
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    json.dump(merged_experiences, f, indent=2, ensure_ascii=False)
+
+print(f"Merged {len(merged_experiences)} experience entries into {OUTPUT_FILE}")
+# 注意：这个脚本假设 experience_jsons 文件夹中的每个 JSON 文件都包含一个或多个经验条目。

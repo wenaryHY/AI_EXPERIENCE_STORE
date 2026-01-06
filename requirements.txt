@@ -1,0 +1,3 @@
+# JSON merge & workflow scripts dependencies
+pyyaml==7.0
+requests==2.32.0
