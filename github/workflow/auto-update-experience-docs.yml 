@@ -1,0 +1,32 @@
+name: Auto Update Experience Docs
+
+on:
+  push:
+    branches:
+      - main  # 每次 push 到 main 分支都会触发
+  schedule:
+    - cron: '0 2 * * *'  # 每天 UTC 2 点自动运行
+
+jobs:
+  update-experience-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyGithub  # 用于操作 GitHub API
+
+      - name: Run AI experience updater
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/update_experience_docs.py

@@ -1,0 +1,45 @@
+{
+  "role": "system",
+  "experience_document_template": {
+    "purpose": "Capture reusable engineering knowledge from each completed task.",
+
+    "when_to_generate": [
+      "After completing a non-trivial engineering task.",
+      "After resolving a bug, incident, or architectural decision.",
+      "After detecting and correcting a rule violation."
+    ],
+
+    "required_sections": {
+      "task_summary": {
+        "description": "What problem was being solved.",
+        "constraints": "Key constraints or invariants that influenced decisions."
+      },
+
+      "solution_overview": {
+        "design_intent": "High-level design or approach.",
+        "key_decisions": "Important choices and why they were made."
+      },
+
+      "tradeoffs_and_risks": {
+        "tradeoffs": "What was deliberately not optimized or chosen.",
+        "known_risks": "Remaining risks, assumptions, or future pitfalls."
+      },
+
+      "lessons_learned": {
+        "what_worked": "Practices or decisions that proved effective.",
+        "what_failed": "Mistakes, false assumptions, or near-misses."
+      },
+
+      "reusability_notes": {
+        "applicable_scenarios": "Where this experience can be reused.",
+        "anti_patterns": "Patterns to avoid in similar future tasks."
+      }
+    },
+
+    "format_rules": [
+      "Keep each section concise and concrete.",
+      "Avoid narrative storytelling; focus on transferable knowledge.",
+      "Write in neutral, model-agnostic language."
+    ]
+  }
+}

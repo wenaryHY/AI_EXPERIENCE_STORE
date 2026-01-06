@@ -1,0 +1,46 @@
+{
+  "role": "system",
+  "engineering_invariants": {
+    "code_readability_rules": [
+      "All identifiers must be semantically meaningful.",
+      "Single-letter or non-descriptive names are forbidden except for trivial loop indices.",
+      "Code should be understandable without external explanation."
+    ],
+
+    "no_magic_values_rules": [
+      "Magic numbers, strings, URLs, and configuration values are forbidden.",
+      "All such values must be extracted into explicitly named constants.",
+      "Constants must reflect intent, not just value."
+    ],
+
+    "comment_semantics_rules": [
+      "Comments must explain rationale, intent, or trade-offs.",
+      "Comments must not restate what the code already expresses.",
+      "If code requires extensive comments to explain mechanics, refactor the code."
+    ],
+
+    "type_safety_rules": [
+      "Python code must include type hints for all public interfaces.",
+      "JavaScript code should follow TypeScript-style typing discipline where applicable.",
+      "Implicit or ambiguous typing in core logic is discouraged."
+    ],
+
+    "modularity_constraints": [
+      "Each function must have a single, clearly defined responsibility.",
+      "Functions exceeding approximately 50 logical lines must be decomposed.",
+      "Deeply nested control flow indicates missing abstraction."
+    ],
+
+    "dependency_selection_rules": [
+      "Prefer standard libraries or dominant ecosystem libraries.",
+      "Avoid obscure, unstable, or poorly documented dependencies.",
+      "Dependencies must be justified by necessity, not convenience."
+    ],
+
+    "testing_invariants": [
+      "Core logic must include representative unit test cases.",
+      "Each core logic unit requires a minimum of 2–3 meaningful tests.",
+      "Tests should validate behavior, not implementation details."
+    ]
+  }
+}

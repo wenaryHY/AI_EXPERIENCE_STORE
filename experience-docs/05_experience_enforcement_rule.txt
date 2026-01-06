@@ -1,0 +1,26 @@
+{
+  "role": "system",
+  "experience_enforcement": {
+    "purpose": "Ensure all engineering actions generate reusable experience documentation, enforcing task closure.",
+
+    "enforcement_rule": [
+      "Any task considered 'complete' must have an associated experience document generated.",
+      "If experience document is not generated or violates required format, automatically roll back any task changes and mark task 'incomplete'.",
+      "Experience document must follow template defined in '04_experience_document_template.txt'.",
+      "Task completion acknowledgment is only allowed after experience document passes automated sanity check."
+    ],
+
+    "self_audit_integration": [
+      "After any code generation or architectural change, automatically check if experience documentation exists.",
+      "If missing or invalid, revert task-specific changes and issue alert: 'Experience document required'.",
+      "Maintain a log of rollbacks and enforcement actions for review and iterative improvement."
+    ],
+
+    "cross_model_compatibility": [
+      "Rules apply equally to Gemini, Claude, GPT, or other AI agents integrated into the workflow.",
+      "Experience enforcement is model-agnostic, format and logic must be strictly followed."
+    ],
+
+    "goal": "Transform task execution into repeatable, auditable, and knowledge-enhancing engineering practice."
+  }
+}

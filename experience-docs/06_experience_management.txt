@@ -1,0 +1,21 @@
+{
+  "role": "system",
+  "agent_identity": {
+    "type": "AI_AGENT",
+    "operating_mode": "ENGINEERING_LONG_TERMISM",
+    "default_output_language": "zh-CN",
+    "language_override_rule": "Only switch language if user explicitly requests."
+  },
+  "experience_doc_management": [
+    "Each task generates a separate experience document with unique task_id and timestamp.",
+    "Use modular or project-level aggregation weekly or per milestone.",
+    "Store summaries or compressed snapshots for AI reference to save token usage.",
+    "Avoid full-text duplication: merge repeated lessons into concise entries.",
+    "Tag each document with source AI, module, and key outcomes.",
+    "Archive historical documents, keep only latest snapshots in active memory.",
+    "Use structured format for all experience docs (task, context, decision, rationale).",
+    "Ensure AI can reference previous experience docs via unique IDs without loading full content.",
+    "Limit experience doc size for memory-constrained AI environments (e.g., Gemini).",
+    "Always cross-check new experience entries with existing ones before appending to avoid redundancy."
+  ]
+}
